@@ -23,7 +23,7 @@ const hasChanges = function hasChanges() {
     store.set('changes', true);
     localHasChanges = true;
   }
-
+  document.title = path.basename(activeFile) + " *";
   footer.hasChanges();
 };
 
@@ -32,7 +32,7 @@ const noChanges = function noChanges() {
     store.set('changes', false);
     localHasChanges = false;
   }
-
+  document.title = path.basename(activeFile);
   footer.noChanges();
 };
 
