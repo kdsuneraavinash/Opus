@@ -7,8 +7,8 @@ const store = require('./store');
 function init() {
   let isDark = false;
 
-  if (store.has('dark')) {
-    isDark = store.get('dark');
+  if (store.hasWithoutPath('dark')) {
+    isDark = store.getWithoutPath('dark');
   }
 
   if (isDark) {
@@ -23,7 +23,7 @@ function init() {
 function toggle() {
   document.body.classList.toggle('dark');
   const isDark = document.body.classList.contains('dark');
-  store.set('dark', isDark);
+  store.setWithoutPath('dark', isDark);
 }
 
 module.exports = {
