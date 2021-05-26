@@ -20,17 +20,11 @@ const Store = {
     return settings.has(`windows.${this.path}.${key}`);
   },
 
-  getWithoutPath: (key) => {
-    return settings.get(`windows.${key}`);
-  },
+  getWithoutPath: key => settings.get(`windows.${key}`),
 
-  setWithoutPath: (key, value) => {
-    return settings.set(`windows.${key}`, value);
-  },
+  setWithoutPath: (key, value) => settings.set(`windows.${key}`, value),
 
-  hasWithoutPath: (key) => {
-    return settings.has(`windows.${key}`);
-  },
+  hasWithoutPath: key => settings.has(`windows.${key}`),
 };
 
 Object.freeze(Store);

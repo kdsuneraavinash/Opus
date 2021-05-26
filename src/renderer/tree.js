@@ -6,12 +6,14 @@ const tree = {
   data: null,
 };
 
-const update = function getUpdatedProjectTree(p) {
+const update = function getUpdatedProjectTree(p, fileCorruptedNotification) {
   if (!p || p === '') { throw new Error('Path cannot be empty.'); }
 
   tree.data = null;
   tree.data = dirTree(p, {
     extensions: /\.note/,
+    fileCorruptedNotification,
+    callFromRootDir: true,
   });
   tree.data.root = true;
 };
@@ -95,7 +97,7 @@ const applySettings = function applyExtendedPropToFolders(paths) {
   tree.data = unflatten(o);
 };
 
-const reload = function reloadDocumentTree(p) {
+const reload = function reloadDocumentTree(p, fileCorruptedNotification = true) {
   // Deep copy and flatten the tree object
   const old = flatten(JSON.parse(JSON.stringify(tree)).data);
 
@@ -118,7 +120,7 @@ const reload = function reloadDocumentTree(p) {
   });
 
   // Update the tree object
-  tree.update(p);
+  tree.update(p, fileCorruptedNotification);
 
   // Flatten the updated tree object
   const o = flatten(tree.data);
@@ -147,7 +149,7 @@ module.exports = {
     tree.reload = reload;
     tree.getSettings = getSettings;
     tree.applySettings = applySettings;
-    tree.update(p);
+    tree.update(p, true);
 
     if (paths && paths.length !== 0) {
       tree.applySettings(paths);

@@ -100,7 +100,7 @@ module.exports = {
 
       watcher.on('all', (() => {
         // Update the document object tree
-        tree.reload(activeProject);
+        tree.reload(activeProject, false);
 
         // Update the DOM with new data (preserves open states)
         treeView.reload([tree.data], 'tree');
