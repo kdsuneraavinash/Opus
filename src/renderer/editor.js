@@ -23,7 +23,7 @@ const hasChanges = function hasChanges() {
     store.set('changes', true);
     localHasChanges = true;
   }
-  document.title = path.basename(activeFile) + " *";
+  document.title = `${path.basename(activeFile)} *`;
   footer.hasChanges();
 };
 
@@ -116,7 +116,7 @@ module.exports = {
         quill.setContents(delta, 'silent');
       } catch (error) {
         // File is not JSON
-        throw new Error('File is not in JSON format.');
+        console.warn(`${p} is corrupted`);
       }
     }
   },
@@ -210,7 +210,8 @@ module.exports = {
     try {
       module.exports.read(p);
     } catch (error) {
-      throw new Error(error);
+      console.error(`Can not open file.\n${p}`);
+      return false;
     }
 
     // Update the active file
