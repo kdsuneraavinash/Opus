@@ -109,7 +109,11 @@ function directoryTree(path, options, onEachFile) {
   } else {
     return null; // Or set item.size = 0 for devices, FIFO and sockets ?
   }
-  if (options.fileCorruptedNotification && options.callFromRootDir) {
+  if (
+    options.fileCorruptedNotification &&
+    options.callFromRootDir &&
+    notificationStore.getAll().length > 0
+  ) {
     const notification = new remote.Notification({
       title: 'Opus Notification',
       subtitle: 'One or more .note files in the selected directory are corrupted.',
