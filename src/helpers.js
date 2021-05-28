@@ -539,12 +539,6 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
         },
         { type: 'separator' },
         {
-          label: 'Normal Text',
-          enabled: isEnabled,
-          accelerator: 'CmdOrCtrl+`',
-          click() { send('quill', 'norm'); },
-        },
-        {
           label: 'Heading 1',
           enabled: isEnabled,
           accelerator: 'CmdOrCtrl+1',
@@ -579,6 +573,12 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
           enabled: isEnabled,
           accelerator: 'CmdOrCtrl+6',
           click() { send('quill', 'h6'); },
+        },
+        {
+          label: 'Normal Text',
+          enabled: isEnabled,
+          accelerator: 'CmdOrCtrl+`',
+          click() { send('quill', 'norm'); },
         },
         { type: 'separator' },
         {
