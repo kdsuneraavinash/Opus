@@ -23,7 +23,9 @@ const hasChanges = function hasChanges() {
     store.set('changes', true);
     localHasChanges = true;
   }
-  document.title = `${path.basename(activeFile)} *`;
+  if (path.basename(activeFile) != '') {
+    document.title = `${path.basename(activeFile)}*`;
+  }
   footer.hasChanges();
 };
 
@@ -246,6 +248,7 @@ module.exports = {
     quill.history.clear();
     quill.focus();
     footer.setFile('untitled');
+    document.title = `Untitled Note`;
     footer.updateFileStats();
     module.exports.export();
   },
