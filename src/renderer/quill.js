@@ -34,6 +34,9 @@ module.exports = {
     quill.focus();
   },
   quill,
+  norm() {
+    quill.format('header', false, Quill.sources.USER);
+  },
   h1() {
     quill.format('header', '1', Quill.sources.USER);
   },
