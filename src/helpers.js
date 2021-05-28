@@ -13,6 +13,8 @@ const ipc = require('electron-better-ipc');
 const settings = require('electron-settings');
 const windows = require('./windows');
 
+const store = require('./renderer/store');
+
 let splashWindow;
 let introWindow;
 let quitFlag;
@@ -175,6 +177,49 @@ async function createEditorWindow(win) {
     protocol: 'file:',
     slashes: true,
   }));
+
+  // prompt save dialog if closed when unsaved changes are available 
+  w.on('close', (event) => {
+
+    store.init(w.path);  
+    
+    const changes = store.get('changes');
+
+    if (changes) {
+      const choice = dialog.showMessageBox({
+        type: 'question',
+        buttons: ['Save', 'Cancel', 'Don\'t Save'],
+        title: 'Confirm',
+        message: `${store.get('path')} has changes, do you want to save them?`,
+        detail: 'Your changes will be lost if you close this file without saving.',
+        icon: `${app.image}`,
+      });
+
+      switch (choice) {
+        case 0: {
+          // Save
+          event.preventDefault();
+          (async () => {
+            const isSaved = await ipc.callRenderer(w,'save');
+            if (isSaved){
+              w.close();
+            }
+          })();
+          break;
+        }
+        case 1:
+          // Cancel
+          event.preventDefault();
+          break;
+        case 2:
+          // Don't Save
+          store.set('changes', false);
+          break;
+        default:
+          throw new Error(`Out of bounds dialog return: ${choice}`);
+      }
+    }    
+  });
 
   w.on('closed', () => {
     if (!quitFlag) {
