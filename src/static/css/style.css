@@ -216,7 +216,7 @@ main {
 footer {
   left: 215px;
   font-family: var(--font-stack-mono);
-  font-size: 13px;
+  font-size: 12px;
   user-select: none;
   color: var(--footer-text);
   border-top: 1px solid var(--footer-border);
