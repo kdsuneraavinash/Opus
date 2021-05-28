@@ -497,8 +497,16 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
     {
       label: 'Edit',
       submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
+        {
+          label: 'Undo',
+          role: 'undo',
+          accelerator: 'CmdOrCtrl+Z'
+        },
+        {
+          label: 'Redo',
+          role: 'redo',
+          accelerator: 'CmdOrCtrl+Y'
+        },
         { type: 'separator' },
         { role: 'cut' },
         { role: 'copy' },
@@ -508,7 +516,7 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
           accelerator: 'CmdOrCtrl+V',
         },
         {
-          label: 'Paste with Style',
+          label: 'Paste without Style',
           role: 'paste',
           accelerator: 'CmdOrCtrl+Shift+V',
         },
@@ -615,6 +623,12 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
           enabled: isEnabled,
           accelerator: 'CmdOrCtrl+6',
           click() { send('quill', 'h6'); },
+        },
+        {
+          label: 'Normal Text',
+          enabled: isEnabled,
+          accelerator: 'CmdOrCtrl+`',
+          click() { send('quill', 'norm'); },
         },
         { type: 'separator' },
         {
