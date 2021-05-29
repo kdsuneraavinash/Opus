@@ -51,6 +51,7 @@ editor.init();
 sidebar.init();
 contextMenu.init();
 footer.init();
+tts.init();
 
 ipcRenderer.on('message', (e, d) => {
   const { method, module, parameters } = d;
