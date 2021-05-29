@@ -118,4 +118,12 @@ module.exports = {
   clear() {
     quill.removeFormat(quill.getSelection(), Quill.sources.USER);
   },
+  getText() {
+    const range = quill.getSelection();
+    if (range && range.length != 0) {
+      return quill.getText(range.index, range.length)
+
+    }
+    return quill.getText();
+  }
 };

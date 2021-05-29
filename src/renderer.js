@@ -10,6 +10,7 @@ const store = require('./renderer/store');
 const find = require('./renderer/find');
 const go = require('./renderer/goto');
 const spellcheck = require('./renderer/spellcheck');
+const tts = require('./renderer/tts');
 
 const { app, dialog } = remote;
 
@@ -26,6 +27,7 @@ const modules = {
   find,
   go,
   spellcheck,
+  tts,
 };
 
 // Initialize the store with the window's project object
