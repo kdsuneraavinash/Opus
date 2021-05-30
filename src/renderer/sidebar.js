@@ -3,6 +3,8 @@ const TreeView = require('./lib/tree');
 const Tree = require('./tree');
 const editor = require('./editor');
 const store = require('./store');
+const { read } = require('./tts');
+
 
 const wrapper = document.querySelector('.wrapper');
 let tree;
@@ -119,5 +121,10 @@ module.exports = {
     wrapper.classList.toggle('slide');
     const isSlid = wrapper.classList.contains('slide');
     store.set('sidebar', !isSlid);
+    if (isSlid) {
+      read('Hide sidebar');
+    } else {
+      read('Show sidebar');
+    }
   },
 };

@@ -355,6 +355,10 @@ footer.hide {
   justify-content: flex-end;
 }
 
+.tts {
+  justify-content: flex-end;
+}
+
 .unsaved {
   text-decoration: underline;
 }

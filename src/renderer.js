@@ -10,6 +10,8 @@ const store = require('./renderer/store');
 const find = require('./renderer/find');
 const go = require('./renderer/goto');
 const spellcheck = require('./renderer/spellcheck');
+const tts = require('./renderer/tts');
+const voiceassist = require('./renderer/voiceassist');
 
 const { app, dialog } = remote;
 
@@ -26,6 +28,8 @@ const modules = {
   find,
   go,
   spellcheck,
+  tts,
+  voiceassist,
 };
 
 // Initialize the store with the window's project object
@@ -49,6 +53,7 @@ editor.init();
 sidebar.init();
 contextMenu.init();
 footer.init();
+tts.init();
 
 ipcRenderer.on('message', (e, d) => {
   const { method, module, parameters } = d;
@@ -60,6 +65,4 @@ ipc.answerMain('save', async () => {
   editor.save();
   return true;
 });
-
-
 

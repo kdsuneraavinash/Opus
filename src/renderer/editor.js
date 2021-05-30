@@ -6,6 +6,8 @@ const Turndown = require('turndown');
 const { quill } = require('./quill');
 const footer = require('./footer');
 const store = require('./store');
+const { read } = require('./tts');
+
 
 const { app, dialog } = remote;
 
@@ -49,6 +51,7 @@ const removeActive = function removeActiveClassFromSidebar() {
 
 module.exports = {
   exportEditor(type) {
+    read(`Exporting to ${type} file`);
     const output = module.exports.exportFile(type);
 
     if (!output) throw new Error('Could not export this file.');
@@ -168,6 +171,7 @@ module.exports = {
     return true;
   },
   save() {
+    read('Saving file');
     // Indicate that this is a local change to the file
     saveFlag = true;
 
@@ -235,6 +239,7 @@ module.exports = {
     return true;
   },
   reset() {
+    read('Resetting file');
     const canReset = module.exports.checkChanges();
     if (!canReset) {
       return;
@@ -248,7 +253,7 @@ module.exports = {
     quill.history.clear();
     quill.focus();
     footer.setFile('untitled');
-    document.title = `Untitled Note`;
+    document.title = 'Untitled Note';
     footer.updateFileStats();
     module.exports.export();
   },

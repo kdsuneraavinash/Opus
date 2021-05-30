@@ -1,4 +1,6 @@
 /* eslint-disable */
+const {read} = require('../tts');
+
 
 (function (define) {
   'use strict';
@@ -148,6 +150,7 @@
               target: content,
               data,
             });
+            read(`now editing ${data.name} file`);
           }
         };
 
