@@ -21,7 +21,7 @@ async function readApi(text) {
       break;
 
     case 'linux':
-      command = `spd-say "${text}"`;
+      command = `spd-say --wait "${text}"`;
       break;
 
     default:
