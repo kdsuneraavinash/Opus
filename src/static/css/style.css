@@ -7,7 +7,7 @@
   --bright-text: rgb(73, 80, 87);
   --accent: #42a5f5;
   --error: #e53935;
-  --separator: #ddd;
+  --separator: #464C4E;
   --aside-text: #464C4E;
   --aside-bg: #f0f0f0;
   --aside-active-bg: var(--accent);
@@ -31,7 +31,7 @@
   --bright-text: rgb(173, 181, 189);
   --accent: #4598f7;
   --error: #e53935;
-  --separator: #242424;
+  --separator: #999999;
   --aside-text: #999999;;
   --aside-bg: #191919;
   --aside-active-bg: var(--accent);
