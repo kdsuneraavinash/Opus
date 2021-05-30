@@ -9,8 +9,7 @@ let readingAloud = false;
 let readerPID = -1;
 
 async function readApi(text) {
-  text = text.replace('\'', ' ');
-  text = text.replace('"', ' ');
+  text = text.replace(/[^0-9A-Z]+/gi, ' ');
 
   let command;
   switch (os.platform()) {
@@ -31,56 +30,65 @@ async function readApi(text) {
   return new Promise((resolve) => {
     readerPID = exec(command, (err, stdout, stderr) => {
       resolve();
+      console.warn(stderr);
     }).pid;
   });
 }
 
+
+function isReading() {
+  return readingAloud;
+}
+
+function setState(reading) {
+  readingAloud = reading;
+  if (reading) {
+    ttsButton.innerHTML = '🔈 STOP';
+  } else {
+    readerPID = -1;
+    ttsButton.innerHTML = '🔊  TTS';
+  }
+}
+
+
+function stop() {
+  if (readerPID === -1) {
+    setState(false);
+  } else {
+    try {
+      process.kill(readerPID);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+}
+
+async function read(text) {
+  if (isReading()) {
+    stop();
+    setState(false);
+  } else {
+    setState(true);
+    await readApi(text);
+    setState(false);
+  }
+}
+
+function init() {
+  ttsButton.addEventListener('click', () => {
+    if (readingAloud) {
+      stop();
+    } else {
+      read(quill.getText());
+    }
+  });
+  setState(false);
+}
+
 module.exports = {
-  init() {
-    ttsButton.addEventListener('click', () => {
-      if (readingAloud) {
-        this.stop();
-      } else {
-        this.read(quill.getText());
-      }
-    });
-    this.setState(false);
-  },
-
-  isReading() {
-    return readingAloud;
-  },
-
-  setState(reading) {
-    readingAloud = reading;
-    if (reading) {
-      ttsButton.innerHTML = '🔈 STOP';
-    } else {
-      readerPID = -1;
-      ttsButton.innerHTML = '🔊  TTS';
-    }
-  },
-
-  async read(text) {
-    if (this.isReading()) {
-      this.stop();
-      this.setState(false);
-    } else {
-      this.setState(true);
-      await readApi(text);
-      this.setState(false);
-    }
-  },
-
-  stop() {
-    if (readerPID == -1) {
-      this.setState(false);
-    } else {
-      try {
-        process.kill(readerPID);
-      } catch (e) {
-        console.warn(e);
-      }
-    }
-  },
+  init,
+  isReading,
+  setState,
+  read,
+  stop,
 };
