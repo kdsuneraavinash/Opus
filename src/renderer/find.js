@@ -1,4 +1,6 @@
 const { quill } = require('./quill');
+const { read } = require('./tts');
+
 const footer = require('./footer');
 
 const editor = document.querySelector('.ql-editor');
@@ -22,6 +24,7 @@ let done = false;
 
 module.exports = {
   activate(isReplace = false) {
+    read('Opened find menu.');
     // If find is already active, do nothing
     if (active && !isReplace) {
       input.focus();
@@ -64,6 +67,7 @@ module.exports = {
     form.addEventListener('submit', module.exports.submit);
   },
   deactivate() {
+    read('Closed find menu.');
     // Remove the event listeners now that find mode is inactive
     form.removeEventListener('submit', module.exports.submit, false);
     window.removeEventListener('keydown', module.exports.escape, false);

@@ -1,4 +1,5 @@
 const { webFrame, remote } = require('electron');
+const { read } = require('./tts');
 
 const spellchecker = require('spellchecker');
 const osLocale = require('os-locale');
@@ -107,6 +108,11 @@ function toggle() {
   const check = !store.get('spellcheck', true);
   store.set('spellcheck', check);
   setSpellcheck(check);
+  if (check) {
+    read('Turned on spell checker');
+  } else {
+    read('Turned off spell checker');
+  }
 }
 
 module.exports = {

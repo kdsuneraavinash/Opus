@@ -1,5 +1,6 @@
 const { quill } = require('./quill');
 const store = require('./store');
+const { read } = require('./tts');
 
 const footer = document.querySelector('footer');
 const position = document.querySelector('.position');
@@ -29,6 +30,11 @@ module.exports = {
     footer.classList.toggle('hide');
     const isHidden = footer.classList.contains('hide');
     store.set('footer', !isHidden);
+    if (isHidden) {
+      read('Hide footer');
+    } else {
+      read('Show footer');
+    }
   },
   updateTime() {
     const date = new Date();

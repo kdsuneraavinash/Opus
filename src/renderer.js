@@ -11,6 +11,7 @@ const find = require('./renderer/find');
 const go = require('./renderer/goto');
 const spellcheck = require('./renderer/spellcheck');
 const tts = require('./renderer/tts');
+const voiceassist = require('./renderer/voiceassist');
 
 const { app, dialog } = remote;
 
@@ -28,6 +29,7 @@ const modules = {
   go,
   spellcheck,
   tts,
+  voiceassist,
 };
 
 // Initialize the store with the window's project object
@@ -63,6 +65,4 @@ ipc.answerMain('save', async () => {
   editor.save();
   return true;
 });
-
-
 

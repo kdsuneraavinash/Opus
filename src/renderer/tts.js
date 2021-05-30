@@ -1,5 +1,5 @@
-const quill = require('./quill');
 const { exec } = require('child_process');
+const store = require('./store');
 const os = require('os');
 
 
@@ -63,7 +63,15 @@ function stop() {
   }
 }
 
-async function read(text) {
+async function read(text, voiceAssist = false) {
+  if (!voiceAssist) {
+    voiceAssist = store.get('voice-assist', false);
+  }
+
+  if (!voiceAssist) {
+    return;
+  }
+
   if (isReading()) {
     stop();
     setState(false);
@@ -75,14 +83,15 @@ async function read(text) {
 }
 
 function init() {
-  ttsButton.addEventListener('click', () => {
-    if (readingAloud) {
-      stop();
-    } else {
-      read(quill.getText());
-    }
-  });
   setState(false);
+}
+
+function onDocumentRead(text) {
+  if (readingAloud) {
+    stop();
+  } else {
+    read(text, true);
+  }
 }
 
 module.exports = {
@@ -91,4 +100,5 @@ module.exports = {
   setState,
   read,
   stop,
+  onDocumentRead,
 };

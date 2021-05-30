@@ -178,11 +178,10 @@ async function createEditorWindow(win) {
     slashes: true,
   }));
 
-  // prompt save dialog if closed when unsaved changes are available 
+  // prompt save dialog if closed when unsaved changes are available
   w.on('close', (event) => {
+    store.init(w.path);
 
-    store.init(w.path);  
-    
     const changes = store.get('changes');
 
     if (changes) {
@@ -200,8 +199,8 @@ async function createEditorWindow(win) {
           // Save
           event.preventDefault();
           (async () => {
-            const isSaved = await ipc.callRenderer(w,'save');
-            if (isSaved){
+            const isSaved = await ipc.callRenderer(w, 'save');
+            if (isSaved) {
               w.close();
             }
           })();
@@ -218,7 +217,7 @@ async function createEditorWindow(win) {
         default:
           throw new Error(`Out of bounds dialog return: ${choice}`);
       }
-    }    
+    }
   });
 
   w.on('closed', () => {
@@ -500,12 +499,12 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
         {
           label: 'Undo',
           role: 'undo',
-          accelerator: 'CmdOrCtrl+Z'
+          accelerator: 'CmdOrCtrl+Z',
         },
         {
           label: 'Redo',
           role: 'redo',
-          accelerator: 'CmdOrCtrl+Y'
+          accelerator: 'CmdOrCtrl+Y',
         },
         { type: 'separator' },
         { role: 'cut' },
@@ -563,11 +562,6 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
           enabled: isEnabled,
           accelerator: 'CmdOrCtrl+Alt+G',
           click() { send('go', 'activate'); },
-        },
-        {
-          label: 'Toggle SpellChecker',
-          enabled: isEnabled,
-          click() { send('spellcheck', 'toggle'); },
         },
       ],
     },
@@ -751,6 +745,21 @@ function buildMenu(isEnabled = true, isOpenEnabled = true) {
         {
           role: 'togglefullscreen',
           accelerator: 'CmdOrCtrl+Shift+F',
+        },
+      ],
+    },
+    {
+      label: 'Tools',
+      submenu: [
+        {
+          label: 'Toggle SpellChecker',
+          enabled: isEnabled,
+          click() { send('spellcheck', 'toggle'); },
+        },
+        {
+          label: 'Toggle Voice Assist for Menus',
+          enabled: isEnabled,
+          click() { send('voiceassist', 'toggle'); },
         },
       ],
     },
